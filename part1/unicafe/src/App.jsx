@@ -10,6 +10,7 @@ const Statistics = ({stats: [ good, neutral, bad ]}) => {
 
   const total = good + bad + neutral
 
+  if (total == 0) return (<div>No feedback given</div>)
   if (good == 0 && bad == 0) {
     return (
       <div>
