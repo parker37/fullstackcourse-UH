@@ -6,21 +6,29 @@ const Button = ({ onClick, text }) => {
   )
 }
 
+const StatisticLine = ({ text, value, valType = 0 }) => {
+  if (valType == 0) return (<div>{text} {value}</div>)
+  else if (valType == 'percentage') {
+    return (<div>{text} {value}%</div>)
+  }
+}
+
 const Statistics = ({stats: [ good, neutral, bad ]}) => {
 
   const total = good + bad + neutral
 
   if (total == 0) return (<div>No feedback given</div>)
-  if (good == 0 && bad == 0) {
+
+  else if (good == 0 && bad == 0) {
     return (
       <div>
-      <p>Good: {good}</p>
-      <p>Neutral: {neutral}</p>
-      <p>Bad: {bad}</p>
-      <p>All: {total}</p>
-      <p>Average: 0</p>
-      <p>Positive: 0%</p>
-    </div>
+        <StatisticLine text='Good:' value={good}/>
+        <StatisticLine text='Neutral:' value={neutral}/>
+        <StatisticLine text='Bad:' value={bad}/>
+        <StatisticLine text='Total:' value={total}/>
+        <StatisticLine text='Average:' value={0}/>
+        <StatisticLine text='Positive:' value={0} valType = 'percentage'/>
+      </div>
     )
   }
 
@@ -29,12 +37,12 @@ const Statistics = ({stats: [ good, neutral, bad ]}) => {
 
   return (
     <div>
-      <p>Good: {good}</p>
-      <p>Neutral: {neutral}</p>
-      <p>Bad: {bad}</p>
-      <p>All: {total}</p>
-      <p>Average: {average}</p>
-      <p>Positive: {posPercentage}%</p>
+      <StatisticLine text='Good:' value={good}/>
+      <StatisticLine text='Neutral:' value={neutral}/>
+      <StatisticLine text='Bad:' value={bad}/>
+      <StatisticLine text='Total:' value={total}/>
+      <StatisticLine text='Average:' value={average}/>
+      <StatisticLine text='Positive:' value={posPercentage} valType='percentage'/>
     </div>
   )
 }
