@@ -7,14 +7,25 @@ const Button = ({ onClick, text }) => {
 }
 
 const StatisticLine = ({ text, value, valType = 0 }) => {
-  if (valType == 0) return (<div>{text} {value}</div>)
-  else if (valType == 'percentage') {
-    return (<div>{text} {value}%</div>)
+  if (valType == 0) {
+    return(
+      <tr>
+        <td>{text}</td>
+        <td>{value}</td>
+      </tr>
+    )
+  } else if (valType == 'percentage') {
+    return(
+      <tr>
+        <td>{text}</td>
+        <td>{value}%</td>
+      </tr>
+    )
   }
 }
 
 const Statistics = ({stats: [ good, neutral, bad ]}) => {
-
+  console.log(good, neutral, bad)
   const total = good + bad + neutral
 
   if (total == 0) return (<div>No feedback given</div>)
@@ -22,12 +33,16 @@ const Statistics = ({stats: [ good, neutral, bad ]}) => {
   else if (good == 0 && bad == 0) {
     return (
       <div>
-        <StatisticLine text='Good:' value={good}/>
-        <StatisticLine text='Neutral:' value={neutral}/>
-        <StatisticLine text='Bad:' value={bad}/>
-        <StatisticLine text='Total:' value={total}/>
-        <StatisticLine text='Average:' value={0}/>
-        <StatisticLine text='Positive:' value={0} valType = 'percentage'/>
+        <table>
+          <tbody>
+            <StatisticLine text='Good:' value={good}/>
+            <StatisticLine text='Neutral:' value={neutral}/>
+            <StatisticLine text='Bad:' value={bad}/>
+            <StatisticLine text='Total:' value={total}/>
+            <StatisticLine text='Average:' value={0}/>
+            <StatisticLine text='Positive:' value={0} valType = 'percentage'/>
+          </tbody>
+        </table>
       </div>
     )
   }
@@ -37,12 +52,16 @@ const Statistics = ({stats: [ good, neutral, bad ]}) => {
 
   return (
     <div>
-      <StatisticLine text='Good:' value={good}/>
-      <StatisticLine text='Neutral:' value={neutral}/>
-      <StatisticLine text='Bad:' value={bad}/>
-      <StatisticLine text='Total:' value={total}/>
-      <StatisticLine text='Average:' value={average}/>
-      <StatisticLine text='Positive:' value={posPercentage} valType='percentage'/>
+      <table>
+        <tbody>
+            <StatisticLine text='Good:' value={good}/>
+            <StatisticLine text='Neutral:' value={neutral}/>
+            <StatisticLine text='Bad:' value={bad}/>
+            <StatisticLine text='Total:' value={total}/>
+            <StatisticLine text='Average:' value={average}/>
+            <StatisticLine text='Positive:' value={posPercentage} valType = 'percentage'/>
+        </tbody>
+      </table>
     </div>
   )
 }
