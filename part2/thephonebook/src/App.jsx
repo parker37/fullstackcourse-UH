@@ -24,9 +24,11 @@ const App = () => {
   console.log('render', persons.length, 'persons');
   
 
-  const shownPersons = filter? persons.filter(
-        (person) => person.name.toLowerCase().includes(filter)
-    ) : persons
+  const shownPersons = filter
+    ? persons.filter((person) => 
+      person.name.toLowerCase().includes(filter.toLowerCase())
+    )
+    : persons
 
   const addPerson = (event) => {
     event.preventDefault()
