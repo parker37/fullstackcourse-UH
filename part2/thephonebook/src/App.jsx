@@ -13,6 +13,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
   const [successMsg, setSuccessMsg] = useState(null)
+  const [errorMsg, setErrorMsg] = useState(null)
 
   const shownPersons = filter
     ? persons.filter((person) => 
@@ -28,6 +29,12 @@ const App = () => {
       .then(initialPersons => {
         console.log('received phonebook')
         setPersons(initialPersons)
+      })
+      .catch(() => {
+        setErrorMsg("Couldn't get phonebook from server")
+        setTimeout(() => {
+          setErrorMsg(null)
+        }, 5000);
       })
   }, [])  
 
@@ -56,6 +63,12 @@ const App = () => {
             setSuccessMsg(null)
           }, 5000);
         })
+        .catch(() => {
+          setErrorMsg(`Couldn't add '${newPerson.name}' to server`)
+          setTimeout(() => {
+            setErrorMsg(null)
+          }, 5000);
+        })
     }
 
     const confirmMsg = `${newName} is already added to the phonebook, replace the old number with a new one?`
@@ -80,7 +93,14 @@ const App = () => {
           setTimeout(() => {
             setSuccessMsg(null)
           }, 5000);
-          
+        })
+        .catch(() => {
+          setErrorMsg(`Information of '${personToAdd.name}' is no longer in server`)
+          setTimeout(() => {
+            setErrorMsg(null)
+          }, 5000);
+
+          setPersons(persons.filter(p => p.name !== personToAdd.name))
         })
     }
     
@@ -96,6 +116,18 @@ const App = () => {
         setTimeout(() => {
           setSuccessMsg(null)
         }, 5000);
+      })
+      .catch((error) => {
+        console.log('error:', error);
+        
+        const queriedPersonName = persons.find(p => p.id === id).name
+
+        setErrorMsg(`'${queriedPersonName}' has already been removed from the server`)
+        setTimeout(() => {
+          setErrorMsg(null)
+        }, 5000);
+
+        setPersons(persons.filter(p => p.id !== id))
       })
   }
 
@@ -116,6 +148,7 @@ const App = () => {
       <h2>Phonebook</h2>
 
       <Notification message={successMsg} type={'success'}/>
+      <Notification message={errorMsg} type={'error'}/>
 
       <Filter 
         filterHandler={handleFilterChange}
