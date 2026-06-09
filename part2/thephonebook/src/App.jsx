@@ -5,12 +5,14 @@ import personsService from "./services/persons"
 import Filter from './components/Filter'
 import Persons from './components/Persons'
 import PersonForm from './components/PersonForm'
+import Notification from './components/Notification'
 
 const App = () => {
   const [persons, setPersons] = useState([]) 
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
+  const [successMsg, setSuccessMsg] = useState(null)
 
   const shownPersons = filter
     ? persons.filter((person) => 
@@ -48,6 +50,11 @@ const App = () => {
           setPersons(persons.concat(returnedPerson))
           setNewName('')
           setNewNumber('')
+
+          setSuccessMsg(`Added ${returnedPerson.name}`)
+          setTimeout(() => {
+            setSuccessMsg(null)
+          }, 5000);
         })
     }
 
@@ -68,6 +75,12 @@ const App = () => {
           ))
           setNewName('')
           setNewNumber('')
+
+          setSuccessMsg(`Updated ${updatedPerson.name}'s Number to ${updatedPerson.number}`)
+          setTimeout(() => {
+            setSuccessMsg(null)
+          }, 5000);
+          
         })
     }
     
@@ -75,9 +88,14 @@ const App = () => {
 
   const deletePerson = (id) => {
     personsService.delete(id)
-      .then(returnPerson => {
-        console.log('removed', returnPerson);
+      .then(returnedPerson => {
+        console.log('removed', returnedPerson);
         setPersons(persons.filter(p => p.id !== id))
+
+        setSuccessMsg(`Deleted  ${returnedPerson.name}`)
+        setTimeout(() => {
+          setSuccessMsg(null)
+        }, 5000);
       })
   }
 
@@ -96,6 +114,8 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+
+      <Notification message={successMsg} type={'success'}/>
 
       <Filter 
         filterHandler={handleFilterChange}
