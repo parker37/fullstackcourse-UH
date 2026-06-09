@@ -32,24 +32,46 @@ const App = () => {
 
   const addPerson = (event) => {
     event.preventDefault()
+    
+    const personToAdd = persons.find(person => person.name === newName)
+    console.log('Found Person:', personToAdd)
 
-    if (persons.findIndex(person => person.name == newName) >= 0) {
-      return alert(`${newName} is already added to phonebook`)
+    if (personToAdd === undefined) {
+      const newPerson = {
+        name: newName,
+        number: newNumber
+      }
+      
+      return personsService.create(newPerson)
+        .then(returnedPerson => {
+          console.log('added', returnedPerson)
+
+          setPersons(persons.concat(returnedPerson))
+          setNewName('')
+          setNewNumber('')
+        })
     }
 
-    const newPerson = {
-      name: newName,
-      number: newNumber
+    const confirmMsg = `${newName} is already added to the phonebook, replace the old number with a new one?`
+
+    if (window.confirm(confirmMsg)) {
+      const updatedPerson = { ...personToAdd, number: newNumber}
+
+      return personsService
+        .update(personToAdd.id, updatedPerson)
+        .then(returnedPerson => {
+          console.log('updated', personToAdd, '\n to', returnedPerson);
+          
+          setPersons(persons.map(person => 
+            person.id === personToAdd.id
+            ? returnedPerson
+            : person
+          ))
+          setNewName('')
+          setNewNumber('')
+        })
     }
     
-    personsService.create(newPerson)
-      .then(returnedPerson => {
-        console.log(returnedPerson)
-
-        setPersons(persons.concat(returnedPerson))
-        setNewName('')
-        setNewNumber('')
-      })
   }
 
   const deletePerson = (id) => {
