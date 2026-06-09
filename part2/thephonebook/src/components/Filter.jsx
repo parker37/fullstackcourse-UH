@@ -1,5 +1,4 @@
 const Filter = (props) => {
-    console.log('Filter props', props);
     const { filter, filterHandler } = props
     
     return <div>

@@ -1,5 +1,4 @@
 const Persons = (props) => {
-    console.log('Persons props', props);
     const { shownPersons } = props
     
     return (

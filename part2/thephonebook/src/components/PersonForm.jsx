@@ -1,6 +1,4 @@
-const PersonForm = (props) => {
-    console.log('PersonForm props', props);
-    
+const PersonForm = (props) => {    
     const { 
         onSubmit,
         nameHandler,

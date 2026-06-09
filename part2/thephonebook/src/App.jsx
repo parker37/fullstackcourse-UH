@@ -12,11 +12,10 @@ const App = () => {
   const [filter, setFilter] = useState('')
 
   useEffect(() => {
-    console.log('effect');
     axios
       .get('http://localhost:3001/persons')
       .then(response => {
-        console.log('promise fulfilled', response)
+        console.log('received phonebook')
         setPersons(response.data)
       })
     
@@ -41,6 +40,11 @@ const App = () => {
       number: newNumber
     }
     
+    axios.post('http://localhost:3001/persons', newPerson)
+      .then(response => {
+        console.log(response.data)
+      })
+
     setPersons(persons.concat(newPerson))
     setNewName('')
     setNewNumber('')
