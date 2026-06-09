@@ -12,23 +12,22 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
 
+  const shownPersons = filter
+    ? persons.filter((person) => 
+      person.name.toLowerCase().includes(filter.toLowerCase())
+    )
+    : persons
+
+  console.log('render', persons.length, 'persons');
+
+
   useEffect(() => {
     personsService.getAll()
       .then(initialPersons => {
         console.log('received phonebook')
         setPersons(initialPersons)
       })
-    
-  }, [])
-
-  console.log('render', persons.length, 'persons');
-  
-
-  const shownPersons = filter
-    ? persons.filter((person) => 
-      person.name.toLowerCase().includes(filter.toLowerCase())
-    )
-    : persons
+  }, [])  
 
   const addPerson = (event) => {
     event.preventDefault()
