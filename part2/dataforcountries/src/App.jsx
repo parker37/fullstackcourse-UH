@@ -32,6 +32,10 @@ function App() {
     setFilter(event.target.value)
   }
 
+  const showCountry = (country) => {
+    setFilter(country.name.common)
+  }
+
   return (
     <div>
       <Filter 
@@ -39,7 +43,10 @@ function App() {
         handleFilterChange={handleFilterChange}
       />
 
-      <CountryResults shownCountries={shownCountries} /> 
+      <CountryResults 
+        shownCountries={shownCountries}
+        showCountry={showCountry}
+      /> 
     </div>
   )
 }

@@ -8,7 +8,7 @@ const Languages = ({ country }) => {
   })
 }
 
-const CountryResults = ({ shownCountries }) => {
+const CountryResults = ({ shownCountries, showCountry }) => {
   console.log('shownCountries', shownCountries);
   
   if (!shownCountries || shownCountries.length === 0) {
@@ -31,6 +31,7 @@ const CountryResults = ({ shownCountries }) => {
           {shownCountries.map(country => {
             return <div>
               {country.name.common}
+              <button onClick={() => showCountry(country)}>Show</button>
             </div>
           })}
         </div>
