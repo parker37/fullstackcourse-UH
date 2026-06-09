@@ -23,7 +23,12 @@
     {
       "name": "Choi Soobin",
       "number": "123-465-7890",
-      "id": "nzF8wU9nCx0"
+      "id": "W39TUTflcFI"
+    },
+    {
+      "name": "Kang Yeosang",
+      "number": "122-445-7889",
+      "id": "fMHQtJzEwyw"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
+
+import personsService from "./services/persons"
 
 import Filter from './components/Filter'
 import Persons from './components/Persons'
@@ -12,11 +13,10 @@ const App = () => {
   const [filter, setFilter] = useState('')
 
   useEffect(() => {
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
+    personsService.getAll()
+      .then(initialPersons => {
         console.log('received phonebook')
-        setPersons(response.data)
+        setPersons(initialPersons)
       })
     
   }, [])
@@ -40,14 +40,14 @@ const App = () => {
       number: newNumber
     }
     
-    axios.post('http://localhost:3001/persons', newPerson)
-      .then(response => {
-        console.log(response.data)
-      })
+    personsService.create(newPerson)
+      .then(returnedPerson => {
+        console.log(returnedPerson)
 
-    setPersons(persons.concat(newPerson))
-    setNewName('')
-    setNewNumber('')
+        setPersons(persons.concat(returnedPerson))
+        setNewName('')
+        setNewNumber('')
+      })
   }
 
   const handleNameChange = (event) => {
@@ -86,8 +86,6 @@ const App = () => {
       <Persons
         shownPersons={shownPersons}
       />
-
-      <div>debug: {newName} {newNumber}</div>
     </div>
   )
 }
