@@ -46,7 +46,7 @@ function App() {
   }
 
   const shownCountries = filter
-    ? countries.filter(country => country.name.common.toLowerCase().includes(filter.toLowerCase()))
+    ? countries.filter(country => country.name.common.toLowerCase().includes(filter.toLocaleLowerCase()))
     : countries
 
   const handleFilterChange = (event) => {

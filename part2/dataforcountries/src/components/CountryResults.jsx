@@ -2,7 +2,7 @@ import WeatherForecast from "./WeatherForecast"
 
 const Languages = ({ country }) => {
   if (!country.languages) {
-    return <li key={1}>N/A</li>
+    return <li key='1'>N/A</li>
   }
 
   return Object.values(country.languages).map(lang => {
