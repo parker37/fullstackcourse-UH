@@ -1,3 +1,5 @@
+import WeatherForecast from "./WeatherForecast"
+
 const Languages = ({ country }) => {
   if (!country.languages) {
     return <li key={1}>N/A</li>
@@ -8,7 +10,7 @@ const Languages = ({ country }) => {
   })
 }
 
-const CountryResults = ({ shownCountries, showCountry }) => {
+const CountryResults = ({ shownCountries, showCountry, forecast }) => {
   console.log('shownCountries', shownCountries);
   
   if (!shownCountries || shownCountries.length === 0) {
@@ -29,7 +31,7 @@ const CountryResults = ({ shownCountries, showCountry }) => {
       return (
         <div>
           {shownCountries.map(country => {
-            return <div>
+            return <div key={country.name.common}>
               {country.name.common}
               <button onClick={() => showCountry(country)}>Show</button>
             </div>
@@ -50,13 +52,20 @@ const CountryResults = ({ shownCountries, showCountry }) => {
             : 'N/A'
           }
         </div>
-        <div>Area: {country.area}</div>
+        <div>
+          Area: {country.area === -1
+            ? 'N/A'
+            : country.area
+          }
+        </div>
 
         <h3>Languages</h3>
         <ul>
           <Languages country={country} />
         </ul>
         <img src={country.flags.png} alt={country.flags.alt} />
+
+        <WeatherForecast forecast={forecast} />
       </div>
     )
   }
