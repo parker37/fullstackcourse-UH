@@ -1,10 +1,26 @@
 const express = require('express')
 const morgan = require('morgan')
 
+morgan.format('tinyWithData', (tokens, req, res) => {
+    // Function to get request in tiny fmt
+    const getTinyFmt = morgan.compile(
+        ':method :url :status :res[content-length] - :response-time ms'
+    )
+    const outputTinyFmt = getTinyFmt(tokens, req, res)
+
+    // If request method is POST, return log with POST data
+    return outputTinyFmt.concat(
+        req.method === 'POST'
+            ? ` ${JSON.stringify(req.body)}\n---`
+            : '\n---'
+    )
+
+})
+
 const app = express()
 
 app.use(express.json())
-app.use(morgan('tiny'))
+app.use(morgan('tinyWithData'))
 
 let persons = [
     { 
